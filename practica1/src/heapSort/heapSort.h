@@ -1,11 +1,10 @@
 #ifndef HEAPSORT_H
 #define HEAPSORT_H
 
+#include "../classTime/classTime.h"
 #include <vector>
 #include <algorithm>
-#include <iostream>
 #include <cstdlib>
-#include <ctime>
 
 /**
  * [ordenacionHeapSort description]
