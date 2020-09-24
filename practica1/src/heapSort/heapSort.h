@@ -5,6 +5,9 @@
 #include <vector>
 #include <algorithm>
 #include <cstdlib>
+#include <fstream>
+
+using namespace std;
 
 /**
  * [ordenacionHeapSort description]
@@ -15,21 +18,21 @@ void ordenacionHeapSort();
  * [rellenarVector description]
  * @param v [description]
  */
-void rellenarVector(std::vector<int> &v);
+void rellenarVector(vector<int> &v);
 
 /**
  * [heapSort description]
  * @param  v [description]
  * @return   [description]
  */
-bool heapSort(std::vector<int> &v);
+bool heapSort(vector<int> &v);
 
 /**
  * [estaOrdenado description]
  * @param  v [description]
  * @return   [description]
  */
-bool estaOrdenado(const std::vector<int> &v);
+bool estaOrdenado(const vector<int> &v);
 
 /**
  * [tiemposOrdenacionHeapSort description]
@@ -40,6 +43,13 @@ bool estaOrdenado(const std::vector<int> &v);
  * @param nElements [description]
  */
 void tiemposOrdenacionHeapSort(int min, int max, int rep, int incremento,
-	std::vector<double> &realTime, std::vector<int> &nElements);
+	vector<double> &realTime, vector<int> &nElements);
+
+/**
+ * [escribeFichero description]
+ * @param time      [description]
+ * @param nElements [description]
+ */
+void escribeFichero(vector<double> &time, vector<int> &nElements);
 
 #endif
