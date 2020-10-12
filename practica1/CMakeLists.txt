@@ -7,6 +7,9 @@ set(SOURCE_FILES
 	src/heapSort/heapSort.cc 
 	src/classTime/classTime.cc
 	src/sistemaEcuaciones/sistemaEcuaciones.cpp
+	src/funciones/funciones.cc
+	src/determinanteIterativo/determinanteIterativo.cc
+	src/determinanteRecursivo/determinanteRecursivo.cc
 )
 
 # Add executable target with source files listed in SOURCE_FILES variable

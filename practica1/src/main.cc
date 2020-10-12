@@ -1,4 +1,6 @@
 #include "heapSort/heapSort.h"
+#include "determinanteIterativo/determinanteIterativo.h"
+#include "determinanteRecursivo/determinanteRecursivo.h"
 
 int main() {
 	srand(time(NULL));
@@ -15,8 +17,8 @@ int main() {
 		std::cin >> option;
 
 		if (option == 1) ordenacionHeapSort();
-		else if (option == 2) std::cout << "opcion 2" << std::endl;
-		else if (option == 3) std::cout << "opcion 3" << std::endl;
+		else if (option == 2) determinanteIterativo();
+		else if (option == 3) determinanteRecursivo();
 		else if (option == 0) std::cout << "saliendo..." << std::endl;
 		else std::cout << "Opcion incorrecta." << std::endl;
 	}

@@ -4,6 +4,7 @@ void ordenacionHeapSort() {
 	vector<double> tiemposReales, ajuste(2);
 	vector<double> nElementos, tEstimado;
 	int max, min, incremento, rep;
+	long n_estimado = -1;
 
 	cout << "Número mínimo de elementos: ";
 	cin >> min;
@@ -20,11 +21,23 @@ void ordenacionHeapSort() {
 
 	calcularTiemposEstimadosNlogN(nElementos, ajuste, tEstimado);
 	
-	escribeFichero(tiemposReales, tEstimado, nElementos);
+	escribeFichero(tiemposReales, tEstimado, nElementos, "../text/nlogn.txt");
+
+	cout << "Ecuación ajustada: ";
+	cout << ajuste[0] << " + " << ajuste[1] << " * NlogN";
+	cout << endl;
 
 	cout << "Coeficiente de determinacion: ";
 	cout << calcularCoeficienteDeterminacion(tiemposReales, tEstimado);
 	cout << endl;
+
+	while (n_estimado != 0) {
+		cout << "Tamaño de la muestra a estimar (0 para salir): ";
+		cin >> n_estimado;
+
+		if (n_estimado > 0)
+			microsegundosADias(calcularTiempoEstimadoNlogN(n_estimado, ajuste));
+	}
 }
 
 bool heapSort(vector<int> &v) {
@@ -69,19 +82,10 @@ void tiemposOrdenacionHeapSort(int min, int max, int rep, int incremento,
 		tiemposReales.push_back(media_tiempo/rep);
 		nElementos.push_back(i);
 
+		media_tiempo = 0;
+
 		cout << nElementos.back() << " " << tiemposReales.back() << endl;
 	}
-}
-
-void escribeFichero(vector<double> &tReal, vector<double> &tEstimado,
-vector<double> &nElements) {
-	ofstream f("../text/prueba.txt");
-
-	for (int i = 0; i < nElements.size(); ++i) {
-		f << nElements[i] << " " << tReal[i] << " " << tEstimado[i] << endl;
-	}
-
-	f.close();
 }
 
 void ajusteNlogN(const vector <double> &n, const vector <double> &tiemposReales,
@@ -99,32 +103,14 @@ void ajusteNlogN(const vector <double> &n, const vector <double> &tiemposReales,
 	vector <vector <double>> X(2, vector <double>(1));
 	vector <vector <double>> B(2, vector <double>(1));
 
-	// Rellenar la matriz A
-	A[0][0] = sumatorio(z, tiemposReales, 0, 0);
-	A[0][1] = sumatorio(z, tiemposReales, 1, 0);
-	A[1][0] = A[0][1];
-	A[1][1] = sumatorio(z, tiemposReales, 2, 0);
-
-	// Rellenar la matriz B.
-	B[0][0] = sumatorio(z, tiemposReales, 0, 1);
-	B[1][0] = sumatorio(z, tiemposReales, 1, 1);
+	// Rellenar las matrices A y B
+	rellenaA(A, tiemposReales, z);
+	rellenaB(B, tiemposReales, z);
 
 	// Resolución del sistema de ecuaciones.
 	resolverSistemaEcuaciones(A, B, 2, X);
 	ajuste[0] = X[0][0];
 	ajuste[1] = X[1][0];
-
-	cout << "a0 : " << ajuste[0] << endl;
-	cout << "a1 : " << ajuste[1] << endl;
-}
-
-double sumatorio(vector <double> &n, const vector <double> &t, int expN, int expT) {
-	double sumatorio = 0;
-
-	for (int i = 0; i < n.size(); ++i) 
-		sumatorio += pow(n[i], expN) * pow(t[i], expT);
-
-	return sumatorio;
 }
 
 void calcularTiemposEstimadosNlogN(const vector <double> &n,
@@ -133,24 +119,6 @@ const vector <double> &a, vector <double> &tiemposEstimados) {
 		tiemposEstimados.push_back(a[0] + a[1] * i * log(i));
 }
 
-double calcularCoeficienteDeterminacion(const vector <double> &tiemposReales,
-const vector <double> &tiemposEstimados) {
-	double media_r = 0, media_e = 0, varianza_r = 0, varianza_e = 0;
-
-	// calculo de la media
-	for (int i = 0; i < tiemposReales.size(); ++i) {
-		media_e += tiemposEstimados[i];
-		media_r += tiemposReales[i];
-	}
-
-	media_r /= tiemposReales.size();
-	media_e /= tiemposEstimados.size();
-
-	// calculo de la varianza
-	for (int i = 0; i < tiemposReales.size(); ++i) {
-		varianza_e += pow(tiemposEstimados[i] - media_e, 2);
-		varianza_r += pow(tiemposReales[i] - media_r, 2);
-	}
-
-	return varianza_e / varianza_r;
+double calcularTiempoEstimadoNlogN(const double &n, vector <double> &a) {
+	return a[0] + a[1] * n * log(n);
 }
