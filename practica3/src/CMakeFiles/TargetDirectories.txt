@@ -1,0 +1,3 @@
+/mnt/datos/informatica/algoritmica/practicas/practica3/src/CMakeFiles/rebuild_cache.dir
+/mnt/datos/informatica/algoritmica/practicas/practica3/src/CMakeFiles/edit_cache.dir
+/mnt/datos/informatica/algoritmica/practicas/practica3/src/CMakeFiles/test.dir
